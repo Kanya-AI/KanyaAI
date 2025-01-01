@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanya's World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(to bottom right, #FF69B4, #FFC0CB);
+            color: #fff;
+            text-align: center;
+        }
+        header {
+            background-color: #FFB6C1; /* Light Pink Header */
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        header nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        header nav a {
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 15px;
+            margin: 5px;
+            border: 2px solid black; /* Black border for buttons */
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header nav a:hover {
+            background-color: #fff;
+            color: #FF69B4;
+        }
+        .container {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        .container.active {
+            display: block;
+        }
+        .container h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .container p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .button {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: #FF69B4;
+            background-color: #fff;
+            border: 2px solid #FF69B4;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button:hover {
+            background-color: #FFB6C1;
+            transform: scale(1.05);
+        }
+        #alertMessage {
+            margin: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        #alertMessage.success {
+            background-color: #28a745; /* Green for success */
+            color: white;
+        }
+        #alertMessage.error {
+            background-color: #dc3545; /* Red for error */
+            color: white;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        /* Fixed Return Button */
+        .return-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #FF69B4;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .return-btn:hover {
+            background-color: #FFB6C1;
+        }
+        .dot-menu {
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 10px;
+            border: 1px solid #FF69B4;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: #fff;
+            color: #FF69B4;
+        }
+        .dot-menu-options {
+            display: none;
+            position: absolute;
+            background: #fff;
+            color: #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        .dot-menu-options button {
+            background: #fff;
+            color: #FF69B4;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .dot-menu-options button:hover {
+            background-color: #FFB6C1;
+        }
+        .note-item {
+            background-color: #fff;
+            color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #FF69B4;
+            position: relative;
+        }
+        .note-item:hover .dot-menu-options {
+            display: block;
+        }
+        /* Larger writing area */
+        textarea {
+            width: 100%;
+            height: 150px; /* Increased height */
+            padding: 10px;
+            border: 2px solid #FF69B4;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            background-color: #fff;
+            color: #333;
+            margin-top: 10px;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .container h2 {
+                font-size: 1.5rem;
+            }
+            .container p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Kanya's World</h1>
+    <nav>
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('notes')">Note Tool</a>
+        <a href="#" onclick="showPage('links')">Links Tool</a>
+        <a href="#" onclick="showPage('ai')">AI Tool</a>
+    </nav>
+</header>
+
+<!-- Return Button -->
+<button class="return-btn" onclick="goBack()">Return</button>
+
+<!-- Home Page -->
+<div class="container" id="home">
+    <h2>Explore Kanya's World</h2>
+    <p>
+        Welcome to a personalized experience crafted just for you! In Kanya's World, you can explore features, interact with friendly tools, and enjoy a seamless interface that puts everything you need at your fingertips.
+    </p>
+   <br><br>
+   <button class="button" onclick="window.location.href='home.html'">Home page</button> <!-- New button added here -->
+   <button class="button" onclick="goBack()">Return</button>
+</div>
+
+<!-- Notes Tool Page -->
+<div class="container" id="notes">
+    <h2>Note Tool</h2>
+    <p>With the help of this tool you can save your important notes and you can edit and delete it anytime.</p>
+    <textarea id="noteInput" placeholder="Write your note here..."></textarea><br><br>
+    <button class="button" onclick="saveNote()">Save Note</button>
+    <button class="button" onclick="viewNotes()">View Notes</button>
+    <div id="alertMessage"></div>
+</div>
+
+<!-- Important Notes Page -->
+<div class="container" id="importantNotes">
+    <h2>Important Notes</h2>
+    <div id="savedNotesSection" class="note-list"></div>
+    <button class="button" onclick="goBack()">Return</button>
+</div>
+
+<!-- Links Tool Page -->
+<div class="container" id="links">
+    <h2>Links Tool</h2>
+    <p>Manage and organize your personal links here.</p>
+     <button class="button" onclick="goBack()">Return</button>
+    <button class="button" onclick="window.location.href='link.html'">Link Tool</button> <!-- New button added here -->
+
+<button class="button" onclick="window.location.href='bulink.html'">Buttons Links</button>
+</div>
+
+<style>
+    .button {
+        padding: 10px 20px;
+        background-color: #FF69B4;
+        color: white;
+        border: 2px solid #FF69B4;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button:hover {
+        background-color: #FFB6C1;
+    }
+</style>
+
+
+<!-- AI Tool Page -->
+<div class="container" id="ai">
+    <h2>AI Tool</h2>
+    <p>Interact with AI tools here to calculate your age.</p>
+    <button class="button" onclick="goBack()">Return</button>
+    
+    <button class="button" onclick="window.location.href='aic.html'">Age calculator</button> <!-- New button added here -->
+</div>
+
+<footer>
+    <p>&copy; 2025 Kanya's World. Designed with ❤️ for you.</p>
+</footer>
+
+<script>
+    let notes = [];
+    let previousPage = ['home'];  // Track pages visited for back navigation
+
+    function showPage(page) {
+        const pages = document.querySelectorAll('.container');
+        pages.forEach(p => p.classList.remove('active'));
+        
+        const activePage = document.getElementById(page);
+        if (activePage) {
+            activePage.classList.add('active');
+        }
+
+        previousPage.push(page);
+    }
+
+    function goBack() {
+        if (previousPage.length > 1) {
+            previousPage.pop();  // Remove the current page
+            const previousPageName = previousPage[previousPage.length - 1];  // Get the previous page
+            showPage(previousPageName);
+        }
+    }
+
+    function saveNote() {
+        const noteInput = document.getElementById('noteInput');
+        const noteText = noteInput.value.trim();
+        if (noteText === "") {
+            showAlert("Please enter a note.", "error");
+            return;
+        }
+
+        // Check if note already exists
+        if (notes.includes(noteText)) {
+            showAlert("This note already exists.", "error");
+            return;
+        }
+
+        // Add the note to the notes array
+        notes.push(noteText);
+        noteInput.value = "";
+        showAlert("Note saved successfully!", "success");
+    }
+
+    function viewNotes() {
+        showPage('importantNotes');
+        const savedNotesSection = document.getElementById('savedNotesSection');
+        savedNotesSection.innerHTML = ""; // Clear previous content
+
+        // Display each saved note
+        notes.forEach((note, index) => {
+            const noteItem = document.createElement('div');
+            noteItem.classList.add('note-item');
+            noteItem.innerHTML = `
+                <strong>Note #${index + 1}:</strong> <span id="note-text-${index}">${note}</span>
+                <span class="dot-menu" onclick="toggleMenu(event)">...</span>
+                <div class="dot-menu-options">
+                    <button onclick="editNote(${index})">Edit</button>
+                    <button onclick="deleteNote(${index})">Delete</button>
+                </div>
+            `;
+            savedNotesSection.appendChild(noteItem);
+        });
+    }
+
+    function toggleMenu(event) {
+        const menu = event.target.nextElementSibling;
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function editNote(index) {
+        const noteText = notes[index];
+        const noteInput = document.getElementById('noteInput');
+        noteInput.value = noteText;
+        showPage('notes'); // Go to the notes page where the user can edit
+        notes.splice(index, 1); // Remove the old note
+    }
+
+    function deleteNote(index) {
+        // Directly delete without any pop-up
+        notes.splice(index, 1);
+        viewNotes(); // Refresh the notes display
+    }
+
+    function showAlert(message, type) {
+        const alertMessage = document.getElementById('alertMessage');
+        alertMessage.textContent = message;
+        alertMessage.classList.remove('success', 'error');
+        alertMessage.classList.add(type);
+        alertMessage.style.display = 'block';
+
+        // Hide the alert after 1.2 seconds
+        setTimeout(() => {
+            alertMessage.style.display = 'none';
+        }, 1200);
+    }
+
+    // Initially show the home page
+    window.onload = function() {
+        showPage('home');
+    }
+</script>
+
+</body>
+</html>

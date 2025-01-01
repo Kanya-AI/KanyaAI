@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(to bottom right, #FF69B4, #FFC0CB);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            margin: 0 auto;
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #FF69B4;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .button {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #FFC0CB;
+        }
+        .alert {
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .alert.success {
+            background-color: #28a745;
+            color: white;
+        }
+        .alert.error {
+            background-color: #dc3545;
+            color: white;
+        }
+        .link-list div {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #FF69B4;
+            border-radius: 5px;
+            text-align: left;
+            background: #fff;
+            color: #333;
+            position: relative;
+        }
+        .link-list div + div {
+            border-top: 2px solid #FF69B4; /* Adds a boundary line between links */
+        }
+        .link-list a {
+            color: #FF69B4;
+            text-decoration: none;
+        }
+        .link-list a:hover {
+            text-decoration: underline;
+        }
+        .link-actions {
+            margin-top: 10px;
+        }
+        .link-actions button {
+            margin: 5px;
+            padding: 5px 10px;
+            color: #fff;
+            background-color: #FF69B4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .link-actions button:hover {
+            background-color: #FFC0CB;
+        }
+        .edit-textarea {
+            background-color: #fff;
+            color: #333;
+            border: 2px solid #FF69B4;
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="linkTool">
+    <h1>Link Tool</h1>
+    <input type="text" id="linkTitle" placeholder="Enter link title">
+    <input type="url" id="linkContent" placeholder="Paste your link here">
+    
+    <button class="button" onclick="saveLink()">Save Link</button>
+   
+    <button class="button" onclick="viewLinks()">View Saved Links</button>
+    
+<div id="linkAlert" class="alert" style="display: none;"></div>
+</div>
+
+<div class="container" id="savedLinksPage" style="display: none;">
+    <h1>Saved Links</h1>
+    <div id="linkList"></div>
+    <button class="button" onclick="goBack()">Back</button>
+</div>
+
+<script>
+    // Show alert messages
+    function showAlert(message, type) {
+        const alertBox = document.getElementById('linkAlert');
+        alertBox.textContent = message;
+        alertBox.className = `alert ${type}`;
+        alertBox.style.display = 'block';
+        setTimeout(() => alertBox.style.display = 'none', 1500);
+    }
+
+    // Save a new link
+    function saveLink() {
+        const title = document.getElementById('linkTitle').value.trim();
+        const content = document.getElementById('linkContent').value.trim();
+
+        if (!title || !content) {
+            showAlert('Both title and URL are required.', 'error');
+            return;
+        }
+
+        if (!isValidURL(content)) {
+            showAlert('Invalid URL format.', 'error');
+            return;
+        }
+
+        // Check for duplicates
+        const links = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        if (links.some(link => link.url === content)) {
+            showAlert('This link is already saved.', 'error');
+            return;
+        }
+
+        // Save link
+        links.push({ title, url: content });
+        localStorage.setItem('savedLinks', JSON.stringify(links));
+        showAlert('Link saved successfully!', 'success');
+        document.getElementById('linkTitle').value = '';
+        document.getElementById('linkContent').value = '';
+    }
+
+    // Validate URL format
+    function isValidURL(url) {
+        const pattern = new RegExp('^(https?://)?(www\\.)?([\\w-]+)+\\.[\\w-]+(/[\\w- ;,./?%&=]*)?$', 'i');
+        return pattern.test(url);
+    }
+
+    // Show saved links page
+    function viewLinks() {
+        document.getElementById('linkTool').style.display = 'none';
+        document.getElementById('savedLinksPage').style.display = 'block';
+        loadLinks();
+    }
+
+    // Load saved links
+    function loadLinks() {
+        const links = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        const linkList = document.getElementById('linkList');
+        linkList.innerHTML = '';
+
+        if (links.length === 0) {
+            linkList.innerHTML = '<p>No saved links.</p>';
+            return;
+        }
+
+        links.forEach((link, index) => {
+            const linkItem = document.createElement('div');
+            linkItem.innerHTML = `
+                <strong>${index + 1}. ${link.title}</strong><br>
+                <a href="${link.url}" target="_blank">${link.url}</a>
+                <div class="link-actions">
+                    <button onclick="editLink(${index})">Edit</button>
+                    <button onclick="deleteLink(${index})">Delete</button>
+                </div>
+                <div class="edit-textarea" id="editTextarea_${index}" style="display: none;">
+                    <input type="text" value="${link.title}" id="editTitle_${index}">
+                    <input type="url" value="${link.url}" id="editUrl_${index}">
+                    <button class="button" onclick="saveEditedLink(${index})">Save Edit</button>
+                    <button class="button" onclick="cancelEdit(${index})">Cancel</button>
+                </div>
+              
+            `;
+            linkList.appendChild(linkItem);
+        });
+    }
+
+    // Edit a saved link directly in the page
+    function editLink(index) {
+        document.getElementById(`editTextarea_${index}`).style.display = 'block';
+        const link = JSON.parse(localStorage.getItem('savedLinks'))[index];
+        document.getElementById(`editTitle_${index}`).value = link.title;
+        document.getElementById(`editUrl_${index}`).value = link.url;
+    }
+
+    // Save the edited link
+    function saveEditedLink(index) {
+        const title = document.getElementById(`editTitle_${index}`).value.trim();
+        const url = document.getElementById(`editUrl_${index}`).value.trim();
+
+        if (!title || !url) {
+            showAlert('Both title and URL are required.', 'error');
+            return;
+        }
+
+        if (!isValidURL(url)) {
+            showAlert('Invalid URL format.', 'error');
+            return;
+        }
+
+        const links = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        links[index] = { title, url };
+        localStorage.setItem('savedLinks', JSON.stringify(links));
+        showAlert('Link edited successfully!', 'success');
+        loadLinks();
+    }
+
+    // Delete a saved link
+    function deleteLink(index) {
+        const links = JSON.parse(localStorage.getItem('savedLinks')) || [];
+        links.splice(index, 1);
+        localStorage.setItem('savedLinks', JSON.stringify(links));
+        showAlert('Link deleted successfully!', 'success');
+        loadLinks();
+    }
+
+    // Cancel editing
+    function cancelEdit(index) {
+        document.getElementById(`editTextarea_${index}`).style.display = 'none';
+    }
+
+    // Go back to the main page
+    function goBack() {
+        document.getElementById('linkTool').style.display = 'block';
+        document.getElementById('savedLinksPage').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons Links</title>
+    <style>
+        body {
+            background-color: pink;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        header {
+            background-color: #FF69B4;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            border-bottom: 2px solid #FFB6C1; /* Line under the header */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .return-btn {
+            background-color: #FFB6C1;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .return-btn:hover {
+            background-color: #FF69B4;
+        }
+
+        footer {
+            background-color: #FF69B4;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            margin-top: auto;
+        }
+
+        .section-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 20px; /* Added gap on both sides */
+            border: 2px solid #FFB6C1; /* Border around section */
+            padding: 20px;
+            width: 95%; /* Ensures the section fits within the page width */
+            max-width: 1200px; /* Max width to prevent stretching */
+            box-sizing: border-box; /* Prevents the border from affecting the section's width */
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #FF69B4;
+            border-bottom: 1px solid #FFB6C1; /* Line under section title */
+            padding-bottom: 5px;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(3, 126px);
+            grid-template-rows: repeat(7, 55px);
+            gap: 10px;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 126px;
+            height: 55px;
+        }
+
+        .button {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .pink-button {
+            background-color: #FF69B4;
+        }
+
+        .blue-button {
+            background-color: #ADD8E6;
+        }
+
+        .dot-menu {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.5; /* 50% opacity for the dot menu */
+        }
+
+        .dot-menu:hover {
+            background-color: #f0f0f0;
+            opacity: 1; /* Full opacity on hover */
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .popup h3 {
+            margin-bottom: 15px;
+        }
+
+        .popup input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .popup .close-btn {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .popup .save-btn {
+            background-color: #FF69B4;
+            color: white;
+        }
+
+        .blue-popup .save-btn {
+            background-color: #ADD8E6;
+        }
+
+        /* Styling for the line between sections */
+        hr {
+            width: 90%;
+            border: 1px solid #FF69B4;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Buttons Links</h1>
+       <button class="return-btn" onclick="window.location.href='note.html'">Return</button>
+</header>
+
+ <div class="section-container">
+        <h2>Save your important links in button format.</h2>
+    </div>
+<div class="section-container">
+    <h2 class="section-title">💬Regular Links🖇️</h2>
+    <div class="button-container" id="regularLinksContainer"></div>
+</div>
+
+<hr> <!-- Line between sections -->
+
+<div class="section-container">
+    <h2 class="section-title">🔥Important Links🖇️</h2>
+    <div class="button-container" id="importantLinksContainer"></div>
+</div>
+
+<footer>
+    &copy; 2025 Kanya's World. All Rights Reserved.
+</footer>
+
+<!-- Popup Overlay -->
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup" id="popup">
+        <h3>Edit Button</h3>
+        <input type="text" id="buttonNameInput" placeholder="Enter new name">
+        <input type="text" id="buttonLinkInput" placeholder="Enter new link">
+        <button class="save-btn" id="saveButton">Save</button>
+        <button class="close-btn" id="closeButton">Cancel</button>
+    </div>
+</div>
+
+<script>
+    // Function to render buttons with menu functionality
+    function renderButtons(containerId, buttonsData, buttonClass) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = ''; // Clear container before rendering
+        buttonsData.forEach((button, index) => {
+            const buttonWrapper = document.createElement('div');
+            buttonWrapper.classList.add('button-wrapper');
+
+            const buttonElement = document.createElement('button');
+            buttonElement.classList.add('button', buttonClass);
+            buttonElement.innerText = button.name;
+            buttonElement.onclick = () => {
+                window.open(button.link || 'https://www.fb.com', '_blank');
+            };
+
+            const dotMenu = document.createElement('div');
+            dotMenu.classList.add('dot-menu');
+            dotMenu.innerText = '⋮';
+            dotMenu.onclick = () => openPopup(button, buttonClass);
+
+            buttonWrapper.append(buttonElement, dotMenu);
+            container.appendChild(buttonWrapper);
+        });
+    }
+
+    // Open Popup for Editing
+    function openPopup(button, buttonClass) {
+        const popup = document.getElementById('popup');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const buttonNameInput = document.getElementById('buttonNameInput');
+        const buttonLinkInput = document.getElementById('buttonLinkInput');
+        const saveButton = document.getElementById('saveButton');
+
+        popup.classList.toggle('blue-popup', buttonClass === 'blue-button');
+        buttonNameInput.value = button.name;
+        buttonLinkInput.value = button.link;
+        popupOverlay.style.display = 'flex';
+
+        saveButton.onclick = () => {
+            button.name = buttonNameInput.value;
+            button.link = buttonLinkInput.value;
+            renderButtons('regularLinksContainer', regularLinksData, 'pink-button');
+            renderButtons('importantLinksContainer', importantLinksData, 'blue-button');
+            closePopup();
+        };
+    }
+
+    // Close Popup
+    function closePopup() {
+        document.getElementById('popupOverlay').style.display = 'none';
+    }
+
+    document.getElementById('closeButton').onclick = closePopup;
+
+    // Regular Links Data
+    const regularLinksData = Array.from({ length: 21 }, (_, i) => ({
+        name: `Button ${i + 1}`,
+        link: 'https://www.fb.com',
+    }));
+
+    // Important Links Data
+    const importantLinksData = Array.from({ length: 21 }, (_, i) => ({
+        name: `Button ${i + 1}`,
+        link: 'https://www.fb.com',
+    }));
+
+    // Render Buttons
+    renderButtons('regularLinksContainer', regularLinksData, 'pink-button');
+    renderButtons('importantLinksContainer', importantLinksData, 'blue-button');
+</script>
+
+</body>
+</html>

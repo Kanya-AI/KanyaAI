@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: lightblue;
+        }
+        .button { padding: 10px 20px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; }
+        .section { margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .hidden { display: none; }
+        .separator { border-top: 2px solid #333; margin: 20px 0; }
+        .form-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .form-button:hover {
+            background-color: #45a049;
+        }
+        .close-button {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            background-color: #d32f2f;
+        }
+        .color-button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .alert-box {
+            display: none;
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .alert-box.success {
+            background-color: #4CAF50;
+        }
+        /* Style for the return button */
+        .return-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: lightblue;
+            color: white;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .return-btn:hover {
+            background-color: #b0e0e6;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Return Button to another page -->
+<button class="return-btn" onclick="window.location.href='home.html'">Return</button>
+
+<h1>Settings Page</h1>
+
+<!-- Change Credentials Section -->
+<div class="section">
+    <h2>Change Credentials</h2>
+    <div id="credentialsAlert" class="alert-box"></div>
+    <button class="button" onclick="toggleCredentialsSection()">Change Username & Password</button>
+    <div id="credentialsSection" class="hidden">
+        <form id="credentialsForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+            <button type="submit" class="form-button">Confirm</button>
+        </form>
+    </div>
+</div>
+
+<div class="separator"></div>
+
+<!-- Change Background Color Section -->
+<div class="section">
+    <h2>Change Background Color</h2>
+    <div id="colorAlert" class="alert-box"></div>
+    <button class="button" onclick="toggleColorSection()">Change Background Color</button>
+    <div id="colorSection" class="hidden">
+        <button class="color-button" onclick="changeColor('lightblue')">Light Blue</button>
+        <button class="color-button" onclick="changeColor('lightgreen')">Light Green</button>
+        <button class="color-button" onclick="changeColor('lightyellow')">Light Yellow</button>
+        <button class="color-button" onclick="changeColor('lightpink')">Light Pink</button>
+        <button class="color-button" onclick="changeColor('red')">Red</button>
+    </div>
+</div>
+
+<div class="separator"></div>
+
+<!-- Developer Section -->
+<div class="section">
+    <h2>Developer Section</h2>
+    <div id="developerAlert" class="alert-box"></div>
+    <button class="button" onclick="toggleDeveloperSection()">Enter Developer Code</button>
+    <div id="developerSection" class="hidden">
+        <form id="developerForm">
+            <label for="developerCode">Developer Code:</label>
+            <input type="text" id="developerCode" name="developerCode" required>
+            <button type="submit" class="form-button">Submit</button>
+            <button type="button" class="close-button" onclick="closeDeveloperSection()">Close</button>
+        </form>
+        <div id="credentialsInfo" class="hidden">
+            <h3>Saved Credentials:</h3>
+            <ul id="savedCredentialsList"></ul>
+        </div>
+    </div>
+</div>
+
+<div class="separator"></div>
+
+<!-- About Us Section -->
+<div class="section">
+    <h2>About Us</h2>
+    <div id="aboutUsAlert" class="alert-box"></div>
+    <button class="button" onclick="toggleAboutUsSection()">About Us</button>
+    <div id="aboutUsSection" class="hidden">
+        <p>This program is designed to help users manage their settings easily. You can change credentials, customize the background color, and access developer information.</p>
+    </div>
+</div>
+
+<script>
+    // Saved credentials for simulation
+    const savedCredentials = [
+        {username: "G", password: "1"},
+        {username: "L", password: "2"},
+        {username: "G", password: "2"}
+    ];
+
+    // Toggle sections visibility
+    function toggleCredentialsSection() {
+        const section = document.getElementById("credentialsSection");
+        section.classList.toggle("hidden");
+    }
+
+    function toggleColorSection() {
+        const section = document.getElementById("colorSection");
+        section.classList.toggle("hidden");
+    }
+
+    function toggleDeveloperSection() {
+        const section = document.getElementById("developerSection");
+        section.classList.toggle("hidden");
+        document.getElementById("credentialsInfo").classList.add("hidden"); // Hide credentials initially
+    }
+
+    function toggleAboutUsSection() {
+        const section = document.getElementById("aboutUsSection");
+        section.classList.toggle("hidden");
+    }
+
+    // Close Developer Section
+    function closeDeveloperSection() {
+        document.getElementById("developerSection").classList.add("hidden");
+        document.getElementById("credentialsInfo").classList.add("hidden");
+        document.getElementById("developerCode").value = ""; // Clear input field
+    }
+
+    // Change background color
+    function changeColor(color) {
+        document.body.style.backgroundColor = color;
+        showSectionAlert('colorAlert', `Background color changed to ${color}.`, 'success');
+    }
+
+    // Display alerts for individual sections
+    function showSectionAlert(sectionId, message, type = 'error') {
+        const alertBox = document.getElementById(sectionId);
+        alertBox.textContent = message;
+        alertBox.classList.remove('success', 'error');
+        alertBox.classList.add(type);
+        alertBox.style.display = 'block';
+        setTimeout(() => alertBox.style.display = 'none', 3000);
+    }
+
+    // Handle Developer Section
+    document.getElementById("developerForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const enteredCode = document.getElementById("developerCode").value;
+        if (enteredCode === "1212") {
+            const credentialsList = document.getElementById("savedCredentialsList");
+            credentialsList.innerHTML = ""; // Clear previous list
+
+            savedCredentials.forEach((cred, index) => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `
+                    Credential ${index + 1}: 
+                    Username: <input type="text" id="editUsername${index}" value="${cred.username}" onchange="updateCredential(${index})">
+                    Password: <input type="password" id="editPassword${index}" value="${cred.password}" onchange="updateCredential(${index})">
+                    <button onclick="deleteCredential(${index})">Delete</button>`;
+                credentialsList.appendChild(listItem);
+            });
+
+            document.getElementById("credentialsInfo").classList.remove("hidden");
+            document.getElementById("developerCode").value = ""; // Clear developer code after successful entry
+            showSectionAlert('developerAlert', "Credentials shown successfully.", 'success');
+        } else {
+            showSectionAlert('developerAlert', "Incorrect Developer Code.");
+        }
+    });
+
+    // Handle credentials form submission
+    document.getElementById("credentialsForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const existingCredential = savedCredentials.find(cred => cred.username === username);
+        if (existingCredential) {
+            showSectionAlert('credentialsAlert', "This username already exists.");
+        } else {
+            savedCredentials.push({ username, password });
+            showSectionAlert('credentialsAlert', "Credentials saved successfully!", 'success');
+            document.getElementById("username").value = ""; // Clear fields after saving
+            document.getElementById("password").value = "";
+        }
+    });
+
+    // Update the credential based on the input field
+    function updateCredential(index) {
+        const newUsername = document.getElementById(`editUsername${index}`).value;
+        const newPassword = document.getElementById(`editPassword${index}`).value;
+        savedCredentials[index].username = newUsername;
+        savedCredentials[index].password = newPassword;
+    }
+
+    // Delete a credential
+    function deleteCredential(index) {
+        savedCredentials.splice(index, 1);
+        const credentialsList = document.getElementById("savedCredentialsList");
+        credentialsList.innerHTML = ""; // Clear the list after deletion
+        savedCredentials.forEach((cred, idx) => {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+                Credential ${idx + 1}: 
+                Username: <input type="text" value="${cred.username}" disabled>
+                Password: <input type="password" value="${cred.password}" disabled>
+                <button onclick="deleteCredential(${idx})">Delete</button>`;
+            credentialsList.appendChild(listItem);
+        });
+        showSectionAlert('developerAlert', "Credential deleted successfully.", 'success');
+    }
+</script>
+
+</body>
+</html>
