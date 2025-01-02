@@ -63,7 +63,7 @@
 
         .button-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 10px;
         }
 
@@ -73,13 +73,32 @@
 
         .button {
             width: 100%;
-            padding: 10px;
-            font-size: 1rem;
+            height: 40px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 0 10px;
+            display: inline-block;
             color: white;
             background-color: #FF69B4;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            position: relative;
+        }
+
+        .button span {
+            display: inline-block;
+            animation: marquee 7s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .dot-menu {
@@ -109,17 +128,20 @@
         }
 
         .popup {
-            background: white;
+            background: #FFB6C1;
             padding: 20px;
             border-radius: 10px;
             width: 300px;
             text-align: center;
+            color: white;
         }
 
         .popup input {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
         }
 
         .popup button {
@@ -144,6 +166,24 @@
             text-align: center;
             padding: 10px;
         }
+
+        .alert-message {
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+        }
+
+        .alert-error {
+            background-color: #dc3545;
+        }
+
     </style>
 </head>
 <body>
@@ -171,21 +211,22 @@
     <div class="popup">
         <h3>Edit Button</h3>
         <input type="text" id="buttonNameInput" placeholder="Enter new name">
-        <input type="text" id="buttonLinkInput" placeholder="Enter new link">
+        <input type="text" id="buttonLinkInput" placeholder="Enter new link (optional)">
         <button class="save-btn" onclick="saveChanges()">Save</button>
         <button class="close-btn" onclick="closePopup()">Cancel</button>
+        <div id="popupAlertMessage" class="alert-message"></div>
     </div>
 </div>
 
 <script>
     const regularLinksContainer = document.getElementById('regularLinksContainer');
     const importantLinksContainer = document.getElementById('importantLinksContainer');
+    const popupAlertMessage = document.getElementById('popupAlertMessage');
     const popupOverlay = document.getElementById('popupOverlay');
     const buttonNameInput = document.getElementById('buttonNameInput');
     const buttonLinkInput = document.getElementById('buttonLinkInput');
     let currentButtonId = null;
 
-    // Function to create buttons
     function createButtons(container, sectionName, count) {
         for (let i = 1; i <= count; i++) {
             const buttonId = sectionName + i;
@@ -199,14 +240,21 @@
             const savedName = localStorage.getItem('name' + buttonId);
             const savedLink = localStorage.getItem('link' + buttonId);
 
-            button.innerText = savedName || `Button ${i}`;
+            const buttonContent = document.createElement('span');
+            buttonContent.innerText = savedName || `Button ${i}`;
+            button.appendChild(buttonContent);
+
+            // Button click redirect
             button.onclick = () => {
                 if (savedLink) {
                     window.location.href = savedLink;
                 } else {
-                    alert('No link assigned!');
+                    showAlert('No link assigned!', 'error');
                 }
             };
+
+            // Apply animation to every button with the text scrolling effect
+            buttonContent.style.animation = 'marquee 7s linear infinite';
 
             const dotMenu = document.createElement('div');
             dotMenu.classList.add('dot-menu');
@@ -226,6 +274,7 @@
         buttonNameInput.value = savedName || '';
         buttonLinkInput.value = savedLink || '';
         popupOverlay.style.display = 'flex';
+        popupAlertMessage.style.display = 'none'; // Hide alert message initially
     }
 
     function closePopup() {
@@ -236,14 +285,38 @@
         const newName = buttonNameInput.value.trim();
         const newLink = buttonLinkInput.value.trim();
 
+        // Validation
+        if (newName === '') {
+            showAlert('Button name cannot be empty!', 'error');
+            return;
+        }
+
+        if (newLink && !isValidUrl(newLink)) {
+            showAlert('Please enter a valid URL!', 'error');
+            return;
+        }
+
         if (currentButtonId) {
             const button = document.getElementById(currentButtonId);
-            button.innerText = newName;
+            button.querySelector("span").innerText = newName;
             localStorage.setItem('name' + currentButtonId, newName);
             localStorage.setItem('link' + currentButtonId, newLink);
+
+            showAlert('Button updated successfully!', 'success');
         }
 
         closePopup();
+    }
+
+    function isValidUrl(url) {
+        const regex = /^(ftp|http|https):\/\/[^ "]+$/;
+        return regex.test(url);
+    }
+
+    function showAlert(message, type) {
+        popupAlertMessage.innerText = message;
+        popupAlertMessage.className = `alert-message ${type === 'success' ? 'alert-success' : 'alert-error'}`;
+        popupAlertMessage.style.display = 'block';
     }
 
     createButtons(regularLinksContainer, 'regular', 50);
