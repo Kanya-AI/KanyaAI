@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Tic Tac Toe Game</h1>
+  </header>
+
+  <div class="container">
+    <!-- Scoreboard -->
+    <div class="scoreboard">
+      <div>Team X Points: <span id="team-x-points">0</span></div>
+      <div>Team O Points: <span id="team-o-points">0</span></div>
+    </div>
+
+    <!-- Game Board -->
+    <div class="board" id="board"></div>
+
+    <!-- Result Popup -->
+    <div id="result-popup" class="result-popup">
+      <div class="result-content">
+        <h2 id="result-message">Winner!</h2>
+        <button id="close-result" class="close-result-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="controls">
+      <button id="reset-board">Reset Board</button>
+      <button id="restart-game">Restart Game</button>
+      <button id="return-btn" class="return-btn">Return</button> <!-- Moved below -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Kanya.AI. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
