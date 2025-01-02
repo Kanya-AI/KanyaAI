@@ -3,40 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Kanya.AI</title>
     <style>
+        /* Resetting default margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
-            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            min-height: 100%;
         }
+
+        /* Top Header with Pink Background */
+        header {
+            background-color: #ff66b2;  /* Pink background */
+            color: white;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
         h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
             color: #333;
         }
-        .nav {
-            margin: 20px;
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #666;
         }
-        .nav a {
-            text-decoration: none;
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #007BFF;
+
+        .quote {
+            font-size: 1.5em;
+            font-style: italic;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
             color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2em;
             border-radius: 5px;
-            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
         }
-        .nav a:hover {
-            background-color: #0056b3;
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer with Pink Background and Improved Contrast */
+        footer {
+            background-color: #ff66b2; /* Pink background */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Improved visibility for copyright text */
+        footer p {
+            color: #fff; /* White text for better contrast */
+            font-weight: bold; /* Making the text bold for better visibility */
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to My Project</h1>
-    <p>This is the homepage. Use the buttons below to navigate to different tools.</p>
 
-    <div class="nav">
-        <a href="login.html">Login Page</a>
+<header>
+    Kanya.AI
+</header>
+
+<div class="container">
+    <h1>Welcome to Kanya.AI</h1>
+    <p>Your intelligent assistant is just a click away.</p>
+    <div class="quote">
+        "Unlock the future of innovation, one click at a time. Let Kanya.AI guide you to new possibilities!"
     </div>
+    <a href="login.html" class="btn">Login</a>
+</div>
+
+<footer>
+    <p>&copy; 2025 Kanya.AI. All Rights Reserved.</p>
+</footer>
+
 </body>
 </html>
