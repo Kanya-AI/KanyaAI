@@ -1,0 +1,143 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffe6f0;
+  color: #333;
+  text-align: center;
+}
+
+.container {
+  margin-top: 50px;
+  width: 90%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Header */
+header {
+  background-color: #ff66b2;
+  color: white;
+  padding: 10px 0;
+  position: relative;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+  text-align: center; /* Center the game name */
+}
+
+/* Scoreboard */
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #ff4da6;
+}
+
+/* Tic Tac Toe Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;  /* Ensure the grid stays compact */
+  background-color: #ff99cc;
+  padding: 5px;
+  border-radius: 10px; /* Make the edges of the board rounded */
+}
+
+.cell {
+  width: 90px;   /* Adjust cell size for a closer fit */
+  height: 90px;
+  background-color: #ffe6f0;
+  border: 2px solid #ff99cc;
+  font-size: 36px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #ff4da6;
+  border-radius: 5px; /* Rounded corners for each cell */
+}
+
+.cell.taken {
+  cursor: not-allowed;
+  color: #333;
+}
+
+/* Controls */
+.controls button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #ff66b2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.controls button:hover {
+  background-color: #ff4da6;
+}
+
+/* Result Popup */
+.result-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.result-content {
+  background-color: #fff0f6;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-result-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff66b2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.close-result-btn:hover {
+  background-color: #ff4da6;
+}
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ff66b2;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+footer p {
+  margin: 0;
+}
