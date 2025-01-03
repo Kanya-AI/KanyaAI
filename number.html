@@ -41,11 +41,23 @@
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
+        /* Subheading Styling */
+        .subheading {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #555;
+            text-align: center;
+        }
+
         /* Game Content Styling */
         .game-container {
             text-align: center;
             max-width: 400px;
             padding: 20px;
+            border: 2px solid #ffb6c1; /* Add border around the game area */
+            border-radius: 10px;
+            margin: 20px auto;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
@@ -95,23 +107,31 @@
             font-weight: bold;
         }
 
-        /* Return Button Styling */
-        .return-button {
+        /* Action Buttons Styling */
+        .action-buttons {
             margin: 20px 0;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
         }
 
-        .return-button a {
+        .action-button {
+            display: inline-block;
             text-decoration: none;
             background-color: #ff69b4;
             color: #fff;
-            padding: 10px 20px;
+            padding: 10px 0;
             border-radius: 10px;
             font-size: 1rem;
             font-weight: bold;
+            border: none;
+            text-align: center;
+            width: 150px; /* Equal width for both buttons */
+            cursor: pointer;
             transition: background-color 0.3s;
         }
 
-        .return-button a:hover {
+        .action-button:hover {
             background-color: #ff1493;
         }
 
@@ -133,6 +153,11 @@
             Number Guessing Game
         </header>
 
+        <!-- Subheading -->
+        <div class="subheading">
+            Let's see in how many attempts you can guess the correct number.
+        </div>
+
         <!-- Game Content Section -->
         <div class="game-container">
             <h1>Guess the Number</h1>
@@ -142,19 +167,22 @@
             <div class="message" id="message"></div>
         </div>
 
-        <!-- Return Button -->
-        <div class="return-button">
-            <a href="holder.html">Return</a>
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <!-- Restart Button -->
+            <button onclick="restartGame()" class="action-button">Restart</button>
+            <!-- Return Button -->
+            <a href="holder.html" class="action-button">Return</a>
         </div>
 
         <!-- Footer Section -->
         <footer>
-            &copy; 2025 Kanya.AI | All rights reserved.
+            &copy; Kanya.AI | All rights reserved.
         </footer>
     </div>
 
     <script>
-        const secretNumber = Math.floor(Math.random() * 100) + 1;
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
         let attempts = 0;
 
         function checkGuess() {
@@ -174,6 +202,13 @@
             } else {
                 message.innerHTML = `<span class="result">🎉 Correct! You guessed the number in ${attempts} attempts!</span>`;
             }
+        }
+
+        function restartGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('guess').value = '';
+            document.getElementById('message').innerHTML = '';
         }
     </script>
 </body>
