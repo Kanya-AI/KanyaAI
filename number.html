@@ -155,8 +155,7 @@
 
         <!-- Subheading -->
         <div class="subheading">
-            Let's see in how many attempts you can guess the correct number.
-Good luck champ🤞.
+            Let's see in how many attempts you can guess the correct Good Luck Champ 🤞.
         </div>
 
         <!-- Game Content Section -->
@@ -171,16 +170,19 @@ Good luck champ🤞.
         <!-- Action Buttons -->
         <div class="action-buttons">
             <!-- Restart Button -->
-            <button onclick="restartGame()" class="action-button">Restart</button>
+            <button onclick="restartGame()" class="action-button">Restart Game</button>
             <!-- Return Button -->
-            <a href="holder.html" class="action-button">Return</a>
+            <a href="holder.html" class="action-button">Return to Main</a>
         </div>
 
         <!-- Footer Section -->
         <footer>
-            &copy; Kanya.AI | All rights reserved.
+            &copy; 2025 Your Website | All rights reserved.
         </footer>
     </div>
+
+    <!-- Audio Element for Winning Sound -->
+    <audio id="winSound" src="bras.mp3" preload="auto"></audio>
 
     <script>
         let secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -202,6 +204,9 @@ Good luck champ🤞.
                 message.innerHTML = `<span class="result">Too high! Try again.</span> Attempts: ${attempts}`;
             } else {
                 message.innerHTML = `<span class="result">🎉 Correct! You guessed the number in ${attempts} attempts!</span>`;
+                // Play the winning sound
+                const winSound = document.getElementById('winSound');
+                winSound.play();
             }
         }
 
