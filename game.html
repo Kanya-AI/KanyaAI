@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Jump</title>
+    <link rel="stylesheet" href="r.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Road Jump</h1>
+    </header>
+
+    <!-- Score Section -->
+    <div class="score-container">
+        <span id="current-score">Score: 0</span>
+        <span id="high-score">High Score: 0</span>
+    </div>
+
+    <!-- Game Area -->
+    <div class="game-container">
+        <div class="road"></div>
+        <div class="road"></div>
+        <div class="road"></div>
+        <div class="road"></div>
+        <div class="player"></div>
+    </div>
+
+    <!-- Road Buttons -->
+    <div class="road-buttons">
+        <button onclick="movePlayer(0)">Road 1</button>
+        <button onclick="movePlayer(1)">Road 2</button>
+        <button onclick="movePlayer(2)">Road 3</button>
+        <button onclick="movePlayer(3)">Road 4</button>
+    </div>
+
+    <!-- Restart and Return Buttons Section -->
+    <div class="game-actions">
+        <button id="restart-button" onclick="restartGame()">Restart</button>
+        <button id="return-button" onclick="returnToHolder()">Return</button>
+    </div>
+
+    <!-- Game Over Popup -->
+    <div id="popup">
+        <div class="popup-content">
+            <p>Game Over!</p>
+            <button onclick="restartGame()">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2025 Kanya's World | All Rights Reserved.</p>
+    </footer>
+
+    <!-- Game Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gameContainer = document.querySelector('.game-container');
+            const player = document.querySelector('.player');
+            const currentScoreEl = document.getElementById('current-score');
+            const highScoreEl = document.getElementById('high-score');
+            const popup = document.getElementById('popup');
+
+            let playerRoad = 0; // Player starts on the first road
+            let playerY = 10; // Player's initial vertical position from the bottom
+            let currentScore = 0; // Tracks current score
+            let highScore = localStorage.getItem('highScore') || 0; // Fetch high score
+            let gameOver = false; // Tracks game state
+
+            highScoreEl.textContent = `High Score: ${highScore}`;
+
+            const vehicleIntervals = []; // Store all active intervals
+
+            // Function to create vehicles
+            function createVehicle(roadIndex) {
+                if (gameOver) return; // Stop creating vehicles after game over
+
+                const vehicle = document.createElement('div');
+                vehicle.classList.add('vehicle');
+                vehicle.style.left = `${roadIndex * 25 + 5}%`; // Align in the center of the road
+                vehicle.style.top = '-50px';
+                gameContainer.appendChild(vehicle);
+
+                const interval = setInterval(() => {
+                    if (gameOver) {
+                        clearInterval(interval); // Stop vehicle movement after game over
+                        return;
+                    }
+
+                    const vehicleTop = parseInt(window.getComputedStyle(vehicle).top);
+                    vehicle.style.top = `${vehicleTop + 5}px`;
+
+                    // Check collision
+                    const playerBottom = gameContainer.clientHeight - playerY - 30;
+                    if (
+                        playerRoad === roadIndex &&
+                        vehicleTop + 50 >= playerBottom &&
+                        vehicleTop <= playerBottom + 30
+                    ) {
+                        endGame();
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    // Remove vehicle if it goes out of bounds
+                    if (vehicleTop > gameContainer.clientHeight) {
+                        vehicle.remove();
+                        clearInterval(interval);
+                        if (!gameOver) incrementScore();
+                    }
+                }, 50);
+
+                vehicleIntervals.push(interval); // Track intervals
+            }
+
+            // Spawn vehicles periodically
+            const vehicleSpawner = setInterval(() => {
+                const roadIndex = Math.floor(Math.random() * 4);
+                createVehicle(roadIndex);
+            }, 1000);
+
+            // Move player between roads
+            window.movePlayer = function(roadIndex) {
+                if (gameOver) return; // Prevent movement after game over
+                playerRoad = roadIndex;
+                player.style.left = `${roadIndex * 25 + 5}%`;
+            };
+
+            // Increment the score
+            function incrementScore() {
+                currentScore++;
+                currentScoreEl.textContent = `Score: ${currentScore}`;
+                if (currentScore > highScore) {
+                    highScore = currentScore;
+                    highScoreEl.textContent = `High Score: ${highScore}`;
+                    localStorage.setItem('highScore', highScore);
+                }
+            }
+
+            // End the game
+            function endGame() {
+                gameOver = true;
+                vehicleIntervals.forEach(interval => clearInterval(interval));
+                clearInterval(vehicleSpawner);
+                popup.style.display = 'flex';
+            }
+
+            // Restart the game
+            window.restartGame = function () {
+                location.reload(); // Reload the page to restart the game
+            };
+
+            // Redirect to holder.html
+            window.returnToHolder = function () {
+                window.location.href = 'holder.html'; // Redirect to holder.html
+            };
+        });
+    </script>
+</body>
+</html>
