@@ -1,0 +1,212 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}
+
+/* Header Styles */
+header {
+    width: 100%;
+    background: #ff6183; /* Pink background */
+    color: #ffffff; /* White text */
+    text-align: center;
+    padding: 20px ;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* For positioning the return button */
+    display: flex;
+    justify-content: center; /* Ensures header title is centered */
+    align-items: center;
+}
+
+header h1 {
+    font-weight: bold;
+    font-size: 28px;
+    margin: 0;
+   
+    margin-left: 30px;
+    color: #ffffff; /* Ensure the text is white */
+}
+
+
+/* Return Button */
+header .return-button {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffffff;
+    color: #ff6183;
+    padding: 8px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+header .return-button:hover {
+    background: #f2f2f2;
+}
+
+/* Calculator Container */
+.box {
+    width: 90%;
+    max-width: 480px; /* Adjusts to a fixed width */
+    background: #ffffff;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    animation: fadeIn 0.8s ease-in-out;
+    margin-top: 30px;
+}
+
+/* Title */
+h1 {
+    color: #ff6183;
+    font-weight: bold;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Input Styles */
+.input label {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.input input {
+    outline: none;
+    border: 2px solid #ff6183;
+    width: 80%;
+    text-align: center;
+    font-size: 18px;
+    font-family: "Poppins", sans-serif;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: border 0.3s ease;
+}
+
+.input input:focus {
+    border: 2px solid #ff9a9e;
+}
+
+/* Button Styles */
+button.calculate {
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    color: #ffffff;
+    background: #ff6183; /* Pink background */
+    font-size: 18px;
+    border-radius: 8px;
+    padding: 12px 0;
+    width: 80%;
+    outline: none;
+    border: none;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+button.calculate:hover {
+    background: #ff9a9e; /* Lighter pink on hover */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Result Box */
+.result p {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px; /* Added gap between button and result */
+}
+
+.result span {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff6183;
+    background-color: #ffeaf1;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    width: auto;
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #ff6183; /* Pink background */
+    color: #ffffff; /* White text */
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 700px) {
+    header h1 {
+        font-size: 24px;
+    }
+
+    .box {
+        width: 95%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .input label {
+        font-size: 16px;
+    }
+
+    .input input {
+        font-size: 16px;
+        padding: 8px;
+    }
+
+    button.calculate {
+        font-size: 16px;
+        padding: 10px 0;
+    }
+
+    .result p {
+        font-size: 16px;
+    }
+
+    .result span {
+        font-size: 18px;
+        padding: 8px 15px;
+    }
+}
