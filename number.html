@@ -175,8 +175,9 @@ Good luck champ🤞.
             <!-- Return Button -->
             <a href="holder.html" class="action-button">Return</a>
         </div>
- <!-- Audio for Collision -->
-    <audio id="collision-sound" src="loosesound.mp3" preload="auto"></audio>
+
+        <!-- Audio for Correct Guess -->
+        <audio id="correct-sound" src="https://raw.githubusercontent.com/Kanya-AI/KanyaAI/main/loosesound.mp3" preload="auto"></audio>
 
         <!-- Footer Section -->
         <footer>
@@ -187,6 +188,7 @@ Good luck champ🤞.
     <script>
         let secretNumber = Math.floor(Math.random() * 100) + 1;
         let attempts = 0;
+        const correctSound = document.getElementById('correct-sound');
 
         function checkGuess() {
             const guess = parseInt(document.getElementById('guess').value, 10);
@@ -204,11 +206,12 @@ Good luck champ🤞.
                 message.innerHTML = `<span class="result">Too high! Try again.</span> Attempts: ${attempts}`;
             } else {
                 message.innerHTML = `<span class="result">🎉 Correct! You guessed the number in ${attempts} attempts!</span>`;
+                correctSound.play(); // Play the sound when the correct number is guessed
             }
         }
 
         function restartGame() {
-            secretNumber = Math.floor(Math.random() * 100) + 1;
+            secretNumber = Math.floor(Math.random() * 100) + 1; // Corrected
             attempts = 0;
             document.getElementById('guess').value = '';
             document.getElementById('message').innerHTML = '';
