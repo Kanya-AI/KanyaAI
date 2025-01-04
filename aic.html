@@ -4,155 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Age Calculator</title>
-    <style>
-        /* Full Screen Layout */
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        header .title {
-            font-size: 1.5rem;
-            flex-grow: 1;
-            text-align: center;
-        }
-        header a {
-            color: white;
-            font-size: 1.2rem;
-            text-decoration: none;
-            padding: 10px;
-            background-color: #333;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        header a:hover {
-            background-color: #555;
-        }
-        .content {
-            width: 80%;
-            max-width: 600px;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            margin-top: 80px; /* To prevent overlap with header */
-            text-align: center;
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            font-size: 1.2rem;
-            color: #333;
-        }
-        .result span {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-    </style>
+    <link rel="stylesheet" href="age.css">
 </head>
 <body>
 
-<header>
-    <a href="holder.html">Return</a>
-    <div class="title">Age Calculator</div>
+    <!-- Header -->
+    <header>
+    <button class="return-button" onclick="window.location.href='holder.html'">Return</button>
+    <h1>Age Calculator</h1> <!-- Title of the calculator -->
 </header>
 
-<div class="container">
-    <div class="content">
-        <label for="dob">Enter Your Date of Birth (dd/mm/yyyy):</label>
-        <input type="date" id="dob" name="dob">
 
-        <label for="upTo">Select the Date to Calculate Age Up To:</label>
-        <input type="date" id="upTo" name="upTo">
+    <!-- Calculator Box -->
+    <div class="box">
+        <h1>Calculate Your Age</h1>
+        
+        <!-- Date of Birth Input -->
+        <div class="input">
+            <label for="dob">Enter Your Date of Birth</label>
+            <input type="date" id="dob">
+        </div>
 
-        <button onclick="calculateAge()">Calculate Age</button>
+        <!-- Current Date Input -->
+        <div class="input">
+            <label for="current-date">Select Current Date</label>
+            <input type="date" id="current-date">
+        </div>
 
-        <div class="result" id="result">
-            <!-- Result will be displayed here -->
+        <button class="calculate" onclick="calculateAge()">Calculate Age</button>
+
+<h2>Age is just a number.</h2>
+        <!-- Age Display -->
+        <div class="result" id="result-container">
+            <p>Your Age: <span id="age"></span></p>
         </div>
     </div>
-</div>
 
-<script>
-    // Function to format date in dd/mm/yyyy format
-    function formatDate(date) {
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    }
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Kanya.AI | All Rights Reserved</p>
+    </footer>
 
-    // Set the current date as the default for both date of birth and "Up to" date
-    document.getElementById('dob').value = formatDate(new Date());
-    document.getElementById('upTo').value = formatDate(new Date());
+    <script>
+        function calculateAge() {
+            var dob = document.getElementById("dob").value;
+            var currentDate = document.getElementById("current-date").value;
+            
+            if (!dob || !currentDate) {
+                alert("Please enter both date of birth and current date.");
+                return;
+            }
 
-    function calculateAge() {
-        const dob = document.getElementById('dob').value;
-        const upToDate = document.getElementById('upTo').value;
+            var dobDate = new Date(dob);
+            var currentDateObj = new Date(currentDate);
 
-        if (!dob || !upToDate) {
-            alert('Please enter both dates!');
-            return;
+            // Calculate the difference between current date and date of birth
+            var age = currentDateObj - dobDate;
+
+            var years = Math.floor(age / (365.25 * 24 * 60 * 60 * 1000));
+            var months = Math.floor((age % (365.25 * 24 * 60 * 60 * 1000)) / (30 * 24 * 60 * 60 * 1000));
+            var days = Math.floor((age % (30 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000));
+
+            // Format the result in "X year(s) X month(s) X day(s)" format
+            var ageFormatted = `${years} year(s) ${months} month(s) ${days} day(s)`;
+
+            // Display formatted age
+            document.getElementById("age").innerHTML = ageFormatted;
+            document.getElementById("result-container").style.display = "block";
         }
-
-        const birthDate = new Date(dob.split('/').reverse().join('-')); // Convert dd/mm/yyyy to yyyy-mm-dd
-        const upTo = new Date(upToDate.split('/').reverse().join('-')); // Convert dd/mm/yyyy to yyyy-mm-dd
-
-        let age = upTo.getFullYear() - birthDate.getFullYear();
-        const m = upTo.getMonth() - birthDate.getMonth();
-
-        if (m < 0 || (m === 0 && upTo.getDate() < birthDate.getDate())) {
-            age--;
-        }
-
-        const months = upTo.getMonth() - birthDate.getMonth();
-        const days = upTo.getDate() - birthDate.getDate();
-
-        let ageString = `${age} Years, ${months < 0 ? months + 12 : months} Months, ${days} Days`;
-
-        // Display result in dd/mm/yyyy format
-        document.getElementById('result').innerHTML = `<p>Your Age as of ${upToDate}: <span>${ageString}</span></p>`;
-    }
-</script>
+    </script>
 
 </body>
 </html>
