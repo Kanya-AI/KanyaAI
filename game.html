@@ -53,8 +53,10 @@
     <footer>
         <p>© 2025 Kanya's World | All Rights Reserved.</p>
     </footer>
-<!-- Audio for Collision -->
-    <audio id="collision-sound" src="loosesound.mp3" preload="auto"></audio>
+
+    <!-- Audio for Collision -->
+    <audio id="collision-sound" src="loose.mp3" preload="auto"></audio>
+
     <!-- Game Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -63,6 +65,7 @@
             const currentScoreEl = document.getElementById('current-score');
             const highScoreEl = document.getElementById('high-score');
             const popup = document.getElementById('popup');
+            const collisionSound = document.getElementById('collision-sound');
 
             let playerRoad = 0; // Player starts on the first road
             let playerY = 10; // Player's initial vertical position from the bottom
@@ -143,6 +146,7 @@
             // End the game
             function endGame() {
                 gameOver = true;
+                collisionSound.play(); // Play collision sound
                 vehicleIntervals.forEach(interval => clearInterval(interval));
                 clearInterval(vehicleSpawner);
                 popup.style.display = 'flex';
