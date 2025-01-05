@@ -176,8 +176,35 @@ Good luck champ🤞.
             <a href="holder.html" class="action-button">Return</a>
         </div>
 
-        <!-- Audio for Correct Guess -->
-        <audio id="correct-sound" style="display: none;"> src="happy.mp3" preload="auto"></audio>
+       <!-- Hidden Audio Element -->
+<audio id="correct-guess-sound" style="display: none;">
+  <source src="happy.mp3" type="audio/mp3">
+</audio>
+
+<script>
+  // Function to play sound for a correct guess
+  function playCorrectGuessSound() {
+    const audio = document.getElementById('correct-guess-sound');
+    
+    // Configure audio properties to avoid notification bar
+    audio.volume = 1.0; // Set desired volume
+    audio.muted = false; // Ensure it's not muted
+
+    // Play the sound
+    audio.play().catch((error) => {
+      console.warn("Audio playback failed: ", error);
+    });
+  }
+
+  // Example: Call the function when the user guesses correctly
+  function onCorrectGuess() {
+    console.log("Correct guess! Playing sound...");
+    playCorrectGuessSound();
+  }
+
+  // Simulate correct guess (for testing purposes)
+  setTimeout(onCorrectGuess, 2000); // Replace with your condition
+</script>
 
         <!-- Footer Section -->
         <footer>
