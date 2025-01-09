@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanya's World</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffe4e1; /* Light pink background */
+            color: #ff1493; /* Deep pink text */
+            text-align: center;
+        }
+        header {
+            background-color: #ff69b4; /* Hot pink */
+            color: white;
+            padding: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .content {
+            margin: 50px 20px;
+            position: relative;
+            min-height: calc(100vh - 140px); /* Ensures footer stays at the bottom */
+        }
+        .animated-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+        .animated-text span {
+            display: inline-block;
+            position: relative;
+            animation: slide-in-out 4s infinite;
+        }
+        @keyframes slide-in-out {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            20% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            80% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+        .quote {
+            font-style: italic;
+            font-size: 18px;
+            margin: 20px 0;
+            color: #d63384; /* Slightly darker pink */
+        }
+        .return-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff1493; /* Deep pink button */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            animation: drop-bounce 3s ease-in-out;
+            animation-fill-mode: forwards; /* Stops after animation ends */
+        }
+        @keyframes drop-bounce {
+            0% {
+                transform: translateY(-100%); /* Start above the header */
+            }
+            60% {
+                transform: translateY(calc(100vh - 200px)); /* Stop above footer */
+            }
+            80% {
+                transform: translateY(calc(100vh - 220px)); /* Bounce slightly */
+            }
+            100% {
+                transform: translateY(0); /* Return to original position */
+            }
+        }
+        footer {
+            background-color: #ff69b4; /* Hot pink */
+            color: white; /* White text */
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Kanya's World
+    </header>
+    <div class="content">
+        <h1 class="animated-text"><span>Features Coming Soon!</span></h1>
+        <p class="quote">"Patience is the key; amazing features are just around the corner."</p>
+        <a href="holder.html" class="return-btn">Return</a>
+    </div>
+    <footer>
+        © 2025 Kanya's World | All Rights Reserved.
+    </footer>
+</body>
+</html>
