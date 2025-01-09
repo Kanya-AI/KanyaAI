@@ -80,18 +80,27 @@
         .calc-buttons button:hover {
             background-color: #c71585;
         }
-        button.next {
+        button.next, button.restart {
             margin-top: 20px;
             font-size: 18px;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #ff69b4;
             color: white;
+        }
+        button.next {
+            background-color: #ff69b4;
         }
         button.next:hover {
             background-color: #db7093;
+        }
+        button.restart {
+            background-color: #32cd32; /* Green color */
+            margin-left: 10px;
+        }
+        button.restart:hover {
+            background-color: #228b22; /* Darker green */
         }
         .calc-result-box {
             margin-top: 20px;
@@ -203,6 +212,7 @@
 
             <!-- Final Result -->
             <button class="next" onclick="nextStep()">Next</button>
+            <button class="restart" onclick="restartGame()">Restart</button>
         </div>
         <div class="result-box" id="result"></div>
 
@@ -312,6 +322,22 @@
 
                 result.innerText = `🎉 You chose the number ${guessedNumber} and your age is ${age}! 🎉`;
             }
+        }
+
+        function restartGame() {
+            // Reset game state variables
+            step = 1;
+            number = 0;
+            currentCalculation = '';
+            
+            // Reset UI elements
+            document.getElementById('calc-display').value = '';
+            document.getElementById('question').innerText = 'Step 1: Choose any number (x) using the calculator.';
+            document.getElementById('calc-step-text').innerText = 'No calculation yet.';
+            document.getElementById('result').innerText = '';
+            
+            // Hide the alert box if visible
+            document.getElementById('alertBox').style.display = 'none';
         }
     </script>
 </body>
